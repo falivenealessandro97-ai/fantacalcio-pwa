@@ -1,85 +1,118 @@
 <!doctype html>
-th{ text-align:left; font-size:14px; color:var(--muted); }
-td{ font-size:15px; }
-.right{ text-align:right; }
-.muted{ color:var(--muted); }
-.empty{ text-align:center; padding:24px; color:var(--muted); }
-.danger{ color:var(--danger); }
-.toolbar{ display:flex; gap:8px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
-.chip{ background:#1a2147; padding:6px 10px; border-radius:999px; font-size:12px; color:var(--muted); }
-.sortable{ cursor:pointer; }
-</style>
-</head>
-<body>
-<div class="container">
-<h1>Fantacalcio – Gestione Rosa</h1>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Fantacalcio</title>
 
+    <!-- iOS: full screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Fantacalcio" />
 
-<div class="card" style="margin-bottom:12px;">
-<div class="grid grid6">
-<input id="nome" placeholder="Nome" />
-<input id="ruolo" placeholder="Ruolo (P/D/C/A)" />
-<input id="squadra" placeholder="Squadra" />
-<input id="crediti" type="number" inputmode="numeric" placeholder="Crediti" />
-<input id="fvm" type="number" inputmode="numeric" placeholder="FVM (opzionale)" />
-<button id="addBtn">Aggiungi</button>
-</div>
-</div>
+    <!-- PWA manifest -->
+    <link rel="manifest" href="manifest.webmanifest" />
+    <!-- (Opzionale) icona per iPhone
+    <link rel="apple-touch-icon" href="icon-180.png" />
+    -->
 
+    <!-- Stili -->
+    <style>
+      :root { --bg:#0b1020; --card:#121836; --text:#f4f6ff; --muted:#9aa3b2; --acc:#6ea8fe; --danger:#ff5c5c; }
+      *{ box-sizing:border-box }
+      html,body{ margin:0; height:100%; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+      .container{ max-width:980px; margin:0 auto; padding:16px; }
+      h1{ margin:0 0 12px; font-size:22px; }
+      .card{ background:var(--card); border-radius:16px; padding:12px; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+      .grid{ display:grid; gap:8px; }
+      @media (min-width: 720px){ .grid6{ grid-template-columns: repeat(6, 1fr); } }
+      input, button, select{ width:100%; padding:12px 14px; border-radius:12px; border:1px solid transparent; outline:none; font-size:16px; background:#0f1430; color:var(--text); }
+      input::placeholder{ color:#7f89a9 }
+      button{ background:var(--acc); color:#0a0f25; font-weight:600; }
+      button:active{ transform: translateY(1px); }
+      .btn-secondary{ background:#1a2147; color:var(--text); }
+      .btn-danger{ background:var(--danger); color:white; }
+      .row{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+      .pill{ font-size:12px; color:var(--muted); }
+      .stats{ display:flex; gap:24px; align-items:center; }
+      table{ width:100%; border-collapse: collapse; }
+      th, td{ padding:12px; border-bottom:1px solid rgba(255,255,255,.06); }
+      th{ text-align:left; font-size:14px; color:var(--muted); }
+      td{ font-size:15px; }
+      .right{ text-align:right; }
+      .muted{ color:var(--muted); }
+      .empty{ text-align:center; padding:24px; color:var(--muted); }
+      .danger{ color:var(--danger); }
+      .toolbar{ display:flex; gap:8px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+      .chip{ background:#1a2147; padding:6px 10px; border-radius:999px; font-size:12px; color:var(--muted); }
+      .sortable{ cursor:pointer; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Fantacalcio – Gestione Rosa</h1>
 
-<div class="card" style="margin-bottom:12px;">
-<div class="toolbar">
-<div class="stats">
-<label class="pill">Budget Totale</label>
-<input id="budget" type="number" inputmode="numeric" class="w-28" style="width:120px" />
-<div>
-<div class="pill">Speso</div>
-<div id="spent" style="font-weight:600;">0</div>
-</div>
-<div>
-<div class="pill">Residuo</div>
-<div id="remaining" style="font-weight:600;">0</div>
-</div>
-</div>
-<div class="row">
-<button class="btn-secondary" id="clearBtn">Svuota Rosa</button>
-</div>
-</div>
-</div>
+      <div class="card" style="margin-bottom:12px;">
+        <div class="grid grid6">
+          <input id="nome" placeholder="Nome" />
+          <input id="ruolo" placeholder="Ruolo (P/D/C/A)" />
+          <input id="squadra" placeholder="Squadra" />
+          <input id="crediti" type="number" inputmode="numeric" placeholder="Crediti" />
+          <input id="fvm" type="number" inputmode="numeric" placeholder="FVM (opzionale)" />
+          <button id="addBtn">Aggiungi</button>
+        </div>
+      </div>
 
+      <div class="card" style="margin-bottom:12px;">
+        <div class="toolbar">
+          <div class="stats">
+            <label class="pill">Budget Totale</label>
+            <input id="budget" type="number" inputmode="numeric" class="w-28" style="width:120px" />
+            <div>
+              <div class="pill">Speso</div>
+              <div id="spent" style="font-weight:600;">0</div>
+            </div>
+            <div>
+              <div class="pill">Residuo</div>
+              <div id="remaining" style="font-weight:600;">0</div>
+            </div>
+          </div>
+          <div class="row">
+            <button class="btn-secondary" id="clearBtn">Svuota Rosa</button>
+          </div>
+        </div>
+      </div>
 
-<div class="row" style="margin: 0 0 8px;">
-<input id="filter" placeholder="Filtra per nome, ruolo o squadra" />
-<span class="chip" id="countChip">0 giocatori</span>
-</div>
+      <div class="row" style="margin: 0 0 8px;">
+        <input id="filter" placeholder="Filtra per nome, ruolo o squadra" />
+        <span class="chip" id="countChip">0 giocatori</span>
+      </div>
 
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th class="sortable" data-sort="nome">Nome</th>
+              <th class="sortable" data-sort="ruolo">Ruolo</th>
+              <th class="sortable" data-sort="squadra">Squadra</th>
+              <th class="right sortable" data-sort="crediti">Crediti</th>
+              <th class="right sortable" data-sort="fvm">FVM</th>
+              <th>Azioni</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        <div id="empty" class="empty" style="display:none;">Nessun giocatore trovato.</div>
+      </div>
+    </div>
 
-<div class="card">
-<table>
-<thead>
-<tr>
-<th class="sortable" data-sort="nome">Nome</th>
-<th class="sortable" data-sort="ruolo">Ruolo</th>
-<th class="sortable" data-sort="squadra">Squadra</th>
-<th class="right sortable" data-sort="crediti">Crediti</th>
-<th class="right sortable" data-sort="fvm">FVM</th>
-<th>Azioni</th>
-</tr>
-</thead>
-<tbody id="tbody"></tbody>
-</table>
-<div id="empty" class="empty" style="display:none;">Nessun giocatore trovato.</div>
-</div>
-</div>
-
-
-<script src="app.js" type="module"></script>
-<script>
-if ('serviceWorker' in navigator) {
-window.addEventListener('load', () => {
-navigator.serviceWorker.register('./service-worker.js');
-});
-}
-</script>
-</body>
+    <script src="app.js" type="module"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./service-worker.js');
+        });
+      }
+    </script>
+  </body>
 </html>
