@@ -28,7 +28,7 @@ empty: document.getElementById('empty'),
 
 
 // --- Load saved data
-(function init(){
+function init(){
 try {
 const savedPlayers = JSON.parse(localStorage.getItem(STORAGE_PLAYERS) || '[]');
 if (Array.isArray(savedPlayers)) players = savedPlayers;
@@ -36,7 +36,7 @@ if (Array.isArray(savedPlayers)) players = savedPlayers;
 const savedBudget = parseInt(localStorage.getItem(STORAGE_BUDGET) || '500', 10);
 el.budget.value = Number.isFinite(savedBudget) ? savedBudget : 500;
 render();
-})();
+}
 
 
 // --- Helpers
@@ -72,5 +72,4 @@ el.nome.focus();
 
 
 function deletePlayer(index){
-players.splice(index, 1);
-});
+players.splice(index, 1);}
